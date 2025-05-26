@@ -1,0 +1,73 @@
+{
+  "publisher": "ally4",
+  "name": "ally4u",
+  "version": "1.0.0",
+  "description": "VS Code extension for GitHub Copilot Accessibility Assistant",
+  "enabledApiProposals": [
+    "chatProvider"
+  ],
+  "engines": {
+    "vscode": "^1.93.0"
+  },
+  "main": "out/extension.js",
+  "scripts": {
+    "compile": "tsc -p .",
+    "watch": "tsc -w -p ."
+  },
+  "contributes": {
+    "chatParticipants": [
+      {
+        "id": "ally",
+        "name": "ally",
+        "description": "Accessibility assistant",
+        "isSticky": true,
+        "commands": [
+          {
+            "name": "altgen",
+            "description": "Generate Accessibility Text for img link",
+            "disambiguation": [
+              {
+                "category": "ally",
+                "description": "Check existing alt text and Generate Accessibility Text for img link, only input img link and current alt text",
+                "examples": [
+                  {
+                    "text": [
+                      "check if existing alt is good",
+                      "generate new alt text if needed"
+                    ],
+                    "args": [
+                      "This is an image",
+                      "https://example.com/image.png"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "activationEvents": [
+    "onChatParticipant:ally"
+  ],
+  "keywords": [],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "axe-core": "^4.10.3",
+    "dotenv": "^16.3.1",
+    "fs-extra": "^11.3.0",
+    "openai": "^4.19.1",
+    "path": "^0.12.7",
+    "puppeteer": "^24.9.0"
+  },
+  "devDependencies": {
+    "@types/axe-core": "^2.0.2",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.11.30",
+    "@types/vscode": "^1.100.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}

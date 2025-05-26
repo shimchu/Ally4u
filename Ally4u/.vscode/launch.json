@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run Extension",
+      "type": "extensionHost",
+      "request": "launch",
+      "runtimeExecutable": "${execPath}",      // uses your VS Code executable
+      "args": [
+        "--extensionDevelopmentPath=${workspaceFolder}"  // tells VS Code to load your extension from this folder
+      ],
+      "outFiles": [
+        "${workspaceFolder}/out/**/*.js"        // tells the debugger where your compiled code is
+      ],
+      "preLaunchTask": "npm: compile",          // optional: run compile before debugging
+      "sourceMaps": true,
+      "internalConsoleOptions": "openOnSessionStart"
+    }
+  ]
+}

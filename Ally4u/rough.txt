@@ -1,0 +1,53 @@
+/// <reference path="../vscode.proposed.chatProvider.d.ts" />
+
+import * as vscode from 'vscode';
+import { getRelevantContext, getLogContext } from './utils/context';
+import { responderAgent } from './agents/responder';
+import { correctionAgent } from './agents/corrector';
+import { reminderAgent } from './agents/reminder';
+
+export function activate(context: vscode.ExtensionContext) {
+  const provider: any = {
+    provideChatResponse: async (request: any, chatCtx: any, token: vscode.CancellationToken) => {
+      const userPrompt = request.prompt;
+
+      // Collect relevant context
+      const codeContext = await getRelevantContext();
+      const logContext = await getLogContext();
+
+      const chatContext = {
+        prompt: userPrompt,
+        codeContext,
+        logContext,
+        history: chatCtx.messages
+      };
+
+      // Agent responses
+      const responderReply = await responderAgent(chatContext);
+      const correctionReply = await correctionAgent(chatContext);
+      const reminderReply = await reminderAgent({
+        responderResponse: responderReply,
+        chatHistory: chatCtx.messages
+      });
+
+      return {
+        content: `### Responder Suggestion\n${responderReply}\n\n---\n### Correction Suggestion\n${correctionReply}\n\n---\n### Reminder\n${reminderReply}`
+      };
+    }
+  };
+
+  const metadata: vscode.ChatResponseProviderMetadata = {
+    vendor: "MyCompany",
+    name: "Ally4u GPT",
+    family: "ally4u-family",
+    version: "1.0.0",
+    maxInputTokens: 4000,
+    maxOutputTokens: 1000
+    // No 'extensions' property here, so available to all
+  };
+
+
+  context.subscriptions.push(
+   vscode.lm.registerChatModelProvider('Ally4u', provider, metadata)
+  );
+}
