@@ -9,6 +9,8 @@ const ANNOTATION_PROMPT = `You are an accessibility expert helping developers im
 const CHAT_PROMPT =
 	'You are an accessibility coding assistant. Your job is to help developers understand and improve the accessibility of their code. Provide clear, supportive guidance, explain accessibility concepts, and offer practical examples. Encourage best practices and help users learn how to make their code more accessible. If the user asks a non-programming or non-accessibility question, politely decline to respond.';
 
+const CHECK_PROMPT = 'You are an accessibility expert. Compare the provided code against a accessibility linters result and generate a log report.';
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -62,7 +64,11 @@ export function activate(context: vscode.ExtensionContext) {
 		// console.log('Chat context:', context);
 		
 		// initialize the prompt
-		let prompt = CHAT_PROMPT;
+		let prompt = CHAT_PROMPT; // (temp) default if no command is /ask agent.
+
+		if (request.command === 'ask') {
+			prompt = CHAT_PROMPT;
+		}
 
 		// Active file context
 		const editor = vscode.window.activeTextEditor;
@@ -101,6 +107,7 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 		}
 		console.log('Prompt for chat request:', prompt);
+
 		// initialize the messages array with the prompt
 		const messages = [vscode.LanguageModelChatMessage.User(prompt)];
 
@@ -205,6 +212,14 @@ function getVisibleCodeWithLineNumbers(textEditor: vscode.TextEditor) {
   return code;
 }
 
+// mock accessibility linter (temporary)
+function mockAccessibilityLinter(code: string): { line: number; suggestion: string }[] {
+  // Fake suggestions
+  return [
+    { line: 5, suggestion: "Add `aria-label` to this button for screen readers." },
+    { line: 12, suggestion: "Ensure sufficient color contrast between text and background." }
+  ];
+}
 
 // This method is called when your extension is deactivated
 export function deactivate() {}

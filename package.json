@@ -33,7 +33,13 @@
       "fullName": "Accessibility Agent",
       "name": "ally4u",
       "description": "How can I help make your code more accessible?",
-      "isSticky": true
+      "isSticky": true,
+      "commands": [
+        {
+          "name": "ask",
+          "description": "How can I help make your code more accessible?"
+        }
+      ]
     }
   ]
   },
