@@ -28,8 +28,8 @@ Instructions to Run the Chat Extension-
 6) Open your website's HTML script and open the copilot chat
 7) Tag ally4u using @ally4u and feel free to use the command altgen to check if your exisitng alternate text is good and/or generate alternate text
 
-
 note : api key has been removed for privacy purposes
+
 ---
 
 ## **More features coming soon!**
