@@ -2,7 +2,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 import { OpenAI } from 'openai';
 
-const openai = new OpenAI({ apiKey:"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" });
+const openai = new OpenAI({ apiKey:"" });
 
 
 export async function responderAgent(context: any): Promise<string> {
